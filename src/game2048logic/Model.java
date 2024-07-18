@@ -105,8 +105,24 @@ public class Model {
      */
     public boolean maxTileExists() {
         // TODO: Task 3. Fill in this function.
+        int size = board.size( );
+        Tile t ;
+
+        for(int i=0;i<size;i++){
+            for (int j=0;j<size;j++){
+                t =board.tile( i , j) ;
+                if (t!= null) {
+                    if (t.value() == 2048) {
+                        return true;
+                    }
+                }
+            }
+
+        }
+
         return false;
     }
+
 
     /**
      * Returns true if there are any valid moves on the board.
