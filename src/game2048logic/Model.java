@@ -132,6 +132,37 @@ public class Model {
      */
     public boolean atLeastOneMoveExists() {
         // TODO: Fill in this function.
+        int size = board.size( );
+
+        if (emptySpaceExists() ==true ){
+            return true ;
+        }
+        for(int i=0;i< size - 1;i++){
+            for (int j=0;j< size - 1;j++){
+                Tile t =board.tile( i , j) ;
+                Tile tNextLine = board.tile( i , j+1) ;
+                Tile tNextRow = board.tile( i+1 , j) ;
+
+                if (t!= null ) {
+                    if (t.value() == tNextLine.value() ) {
+                        return true;
+                    }
+                    if (t.value() == tNextRow.value() ) {
+                        return true;
+                    }
+                }
+            }
+
+        }
+        //处理特殊情况——右上角的tile并未覆盖在 循环中
+        Tile tMax =board.tile( size - 1 ,size - 1 ) ;
+        Tile tMaxLeft =board.tile( size - 2 ,size - 1 ) ;
+        Tile tMaxDown =board.tile( size - 1 ,size - 2 ) ;
+
+        if ( tMax.value() == tMaxLeft.value()
+        || tMax.value() == tMaxDown.value() ) {
+            return true;
+        }
         return false;
     }
 
