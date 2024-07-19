@@ -182,8 +182,40 @@ public class Model {
      */
     public void moveTileUpAsFarAsPossible(int x, int y) {
         Tile currTile = board.tile(x, y);
+        if (currTile ==null){
+            return;
+        }
+
         int myValue = currTile.value();
         int targetY = y;
+        int size = board.size();
+
+
+
+
+        while(targetY <size){
+            Tile t= board.tile(x, targetY) ;
+            // if 当前的板子为空
+            if (t==null) {
+                targetY++;
+            }
+            else{
+                if (myValue == t.value() ) {
+                    if (t.wasMerged()){
+                        break ;
+                    }
+                    else {
+                        targetY++;
+                    }
+                }
+                else{
+                break ;
+                }
+            }
+        }
+                     // 思考，为什么要减去1 ？
+        board.move(x,targetY-1,currTile);
+
 
         // TODO: Tasks 5, 6, and 10. Fill in this function.
     }
@@ -195,6 +227,11 @@ public class Model {
      * */
     public void tiltColumn(int x) {
         // TODO: Task 7. Fill in this function.
+        int size = board.size() ;
+        //从第二列一直数到最后一列
+        for (int i = size -2 ; i>=0 ; i--){
+            moveTileUpAsFarAsPossible(x,i);
+        }
     }
 
     public void tilt(Side side) {
