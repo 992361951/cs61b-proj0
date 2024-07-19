@@ -112,7 +112,7 @@ public class Model {
             for (int j=0;j<size;j++){
                 t =board.tile( i , j) ;
                 if (t!= null) {
-                    if (t.value() == 2048) {
+                    if (t.value() == MAX_PIECE) {
                         return true;
                     }
                 }
@@ -187,36 +187,30 @@ public class Model {
         }
 
         int myValue = currTile.value();
-        int targetY = y;
+        int targetY = y+ 1 ;
         int size = board.size();
-
-
-
 
         while(targetY <size){
             Tile t= board.tile(x, targetY) ;
             // if 当前的板子为空
             if (t==null) {
                 targetY++;
-            }
-            else{
-                if (myValue == t.value() ) {
-                    if (t.wasMerged()){
-                        break ;
-                    }
-                    else {
-                        targetY++;
-                    }
-                }
-                else{
-                break ;
+            } else{
+                if (t.value() == myValue && !t.wasMerged() ) {
+                    score += myValue * 2 ;
+
+                    board.move(x,targetY,currTile);
+                    return;
+                } else {
+                    break ;
                 }
             }
-        }
+
+            }
                      // 思考，为什么要减去1 ？
-        board.move(x,targetY-1,currTile);
-
-
+        if (targetY - 1 != y) {
+            board.move(x, targetY - 1, currTile);
+        }
         // TODO: Tasks 5, 6, and 10. Fill in this function.
     }
 
@@ -236,7 +230,17 @@ public class Model {
 
     public void tilt(Side side) {
         // TODO: Tasks 8 and 9. Fill in this function.
+
+        board.setViewingPerspective(side) ;
+
+        int size = board.size();
+        for (int i =0 ; i<size ;i++){
+            tiltColumn( i );
+        }
+
+        board.setViewingPerspective(Side.NORTH) ;
     }
+
 
     /** Tilts every column of the board toward SIDE.
      */
